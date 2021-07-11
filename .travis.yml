@@ -1,0 +1,21 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t soramkirtep/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run soramkirtep/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t soramkirtep/multi-client ./client
+  - docker build -t soramkirtep/multi-nginx ./nginx
+  - docker build -t soramkirtep/multi-server ./server
+  - docker build -t soramkirtep/multi-worker ./worker
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push soramkirtep/multi-client
+  - docker push soramkirtep/multi-nginx
+  - docker push soramkirtep/multi-server
+  - dicker push soramkirtep/multi-worker
