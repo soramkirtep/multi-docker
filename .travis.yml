@@ -18,4 +18,4 @@ after_success:
   - docker push soramkirtep/multi-client
   - docker push soramkirtep/multi-nginx
   - docker push soramkirtep/multi-server
-  - dicker push soramkirtep/multi-worker
+  - docker push soramkirtep/multi-worker
